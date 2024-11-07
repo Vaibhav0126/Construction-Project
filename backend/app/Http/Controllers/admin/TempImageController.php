@@ -38,7 +38,7 @@ class TempImageController extends Controller
         $destPath = public_path('uploads/temp/thumb/' . $imageName);
         $manager = new ImageManager(Driver::class);
         $image = $manager->read($sourcePath);
-        $image->coverDown(300, 360);
+        $image->coverDown(300, 300);
         $image->save($destPath);
 
 

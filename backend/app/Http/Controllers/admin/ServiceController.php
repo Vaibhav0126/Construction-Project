@@ -19,7 +19,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::orderBy("created_at", "desc")->get();
+        $services = Service::orderBy("created_at", "DESC")->get();
         return response()->json([
             'status' => true,
             'data' => $services
@@ -53,22 +53,23 @@ class ServiceController extends Controller
         $model->status = $request->status;
         $model->save();
 
-        if ($request->imageID > 0) {
-            $tempImage = TempImage::find($request->imageID);
+        if ($request->imageId > 0) {
+            $tempImage = TempImage::find($request->imageId);
             if ($tempImage != null) {
                 $extArray = explode('.', $tempImage->name);
                 $ext = last($extArray);
 
                 $fileName = strtotime('now') . $model->id . '.' . $ext;
 
+                $sourcePath = public_path('uploads/temp/' . $tempImage->name);
                 // Small thumbnail
 
-                $sourcePath = public_path('uploads/temp/' . $tempImage->name);
                 $destPath = public_path('uploads/services/small/' . $fileName);
                 $manager = new ImageManager(Driver::class);
                 $image = $manager->read($sourcePath);
                 $image->coverDown(500, 600);
                 $image->save($destPath);
+
                 // Large thumbnail
                 $destPath = public_path('uploads/services/large/' . $fileName);
                 $manager = new ImageManager(Driver::class);
@@ -78,10 +79,6 @@ class ServiceController extends Controller
                 $model->image = $fileName;
                 $model->save();
             }
-            return response()->json([
-                'status' => true,
-                'message' => 'Service updated successfully'
-            ]);
         }
 
 
@@ -131,7 +128,7 @@ class ServiceController extends Controller
         }
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'slug' => 'required|unique:services,slug,' . $id . ',id'
+            'slug' => 'required|unique:services,slug,' . $id . ',id',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -146,24 +143,25 @@ class ServiceController extends Controller
         $service->status = $request->status;
         $service->save();
 
-        //save here
-        if ($request->imageID > 0) {
+        // save here
+        if ($request->imageId > 0) {
             $oldImage = $service->image;
-            $tempImage = TempImage::find($request->imageID);
+            $tempImage = TempImage::find($request->imageId);
             if ($tempImage != null) {
                 $extArray = explode('.', $tempImage->name);
                 $ext = last($extArray);
 
                 $fileName = strtotime('now') . $service->id . '.' . $ext;
 
+                $sourcePath = public_path('uploads/temp/' . $tempImage->name);
                 // Small thumbnail
 
-                $sourcePath = public_path('uploads/temp/' . $tempImage->name);
                 $destPath = public_path('uploads/services/small/' . $fileName);
                 $manager = new ImageManager(Driver::class);
                 $image = $manager->read($sourcePath);
                 $image->coverDown(500, 600);
                 $image->save($destPath);
+
                 // Large thumbnail
                 $destPath = public_path('uploads/services/large/' . $fileName);
                 $manager = new ImageManager(Driver::class);
@@ -178,11 +176,11 @@ class ServiceController extends Controller
                     File::delete(public_path('uploads/services/small/' . $oldImage));
                 }
             }
-            return response()->json([
-                'status' => true,
-                'message' => 'Service updated successfully'
-            ]);
         }
+        return response()->json([
+            'status' => true,
+            'message' => 'Service updated successfully'
+        ]);
     }
 
     /**

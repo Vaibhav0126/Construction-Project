@@ -4,6 +4,7 @@ import Header from "../../common/Header";
 import Sidebar from "../../common/Sidebar";
 import { apiurl, token } from "../../common/http";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Show = () => {
   const [services, setServices] = useState([]);
@@ -20,6 +21,28 @@ const Show = () => {
     const result = await res.json();
     setServices(result.data);
   };
+  const deleteService = async (id) => {
+    if (confirm("Are you sure you want to delete?")) {
+      const res = await fetch(apiurl + "services/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token()}`,
+        },
+      });
+      const result = await res.json();
+      // setServices(result.data);
+      if (result.status == true) {
+        const newServices = services.filter((service) => service.id != id);
+        setServices(newServices);
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchServices();
   }, []);
@@ -70,15 +93,18 @@ const Show = () => {
                                 {service.status == 1 ? "Active" : "Block"}
                               </td>
                               <td>
-                                <a href="" className="btn btn-primary btn-sm">
+                                <Link
+                                  to={`/admin/services/edit/${service.id}`}
+                                  className="btn btn-primary btn-sm"
+                                >
                                   Edit
-                                </a>
-                                <a
-                                  href=""
+                                </Link>
+                                <Link
+                                  onClick={() => deleteService(service.id)}
                                   className="btn btn-secondary btn-sm ms-2"
                                 >
                                   Delete
-                                </a>
+                                </Link>
                               </td>
                             </tr>
                           );

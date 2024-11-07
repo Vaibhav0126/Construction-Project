@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useMemo } from "react";
 import Sidebar from "../../common/Sidebar";
 import Footer from "../../common/Footer";
 import Header from "../../common/Header";
@@ -6,8 +6,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { apiurl, token } from "../../common/http";
 import { toast } from "react-toastify";
+import JoditEditor from "jodit-react";
 
-const Create = () => {
+const Create = ({ placeholder }) => {
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
+  const [isDisable, setIsDisable] = useState(false);
+  const [imageId, setimageId] = useState(null);
+
+  const config = useMemo(
+    () => ({
+      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      placeholder: placeholder || "Content",
+    }),
+    [placeholder]
+  );
+
   const {
     register,
     handleSubmit,
@@ -17,6 +31,8 @@ const Create = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    const newData = { ...data, content: content, imageId: imageId };
+
     const res = await fetch(apiurl + "services", {
       method: "POST",
       headers: {
@@ -24,17 +40,39 @@ const Create = () => {
         Accept: "application/json",
         Authorization: `Bearer ${token()}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(newData),
     });
     const result = await res.json();
     if (result.status == true) {
       toast.success(result.message);
       navigate("/admin/services");
     } else {
-      toast.success(result.message);
+      toast.error(result.message);
     }
+  };
+  const handleFile = async (e) => {
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append("image", file);
 
-    console.log(result);
+    await fetch(apiurl + "temp-images", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token()}`,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status == false) {
+          toast.error(result.errors.image[0]);
+          setIsDisable(true);
+        } else {
+          setimageId(result.data.id);
+          setIsDisable(false);
+        }
+      });
   };
   return (
     <>
@@ -66,6 +104,7 @@ const Create = () => {
                         {...register("title", {
                           required: "The Title field is required",
                         })}
+                        placeholder="Title"
                         type="text"
                         className={`form-control ${
                           errors.title && "is-invalid"
@@ -85,6 +124,7 @@ const Create = () => {
                         {...register("slug", {
                           required: "The Slug field is required",
                         })}
+                        placeholder="Slug"
                         type="text"
                         className={`form-control ${
                           errors.slug && "is-invalid"
@@ -102,6 +142,7 @@ const Create = () => {
                       </label>
                       <textarea
                         {...register("short_desc")}
+                        placeholder="Description"
                         rows={4}
                         className="form-control"
                       />
@@ -110,11 +151,21 @@ const Create = () => {
                       <label htmlFor="" className="form-label">
                         Content
                       </label>
-                      <textarea
-                        {...register("content")}
-                        rows={4}
-                        className="form-control"
+                      <JoditEditor
+                        ref={editor}
+                        value={content}
+                        config={config}
+                        tabIndex={1} // tabIndex of textarea
+                        onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                        onChange={(newContent) => {}}
                       />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="" className="form-label">
+                        Image
+                      </label>
+                      <br />
+                      <input onChange={handleFile} type="file" />
                     </div>
                     <div className="mb-3">
                       <label htmlFor="" className="form-label">
@@ -125,7 +176,9 @@ const Create = () => {
                         <option value="0">Block</option>
                       </select>
                     </div>
-                    <button className="btn btn-primary">Submit</button>
+                    <button disabled={isDisable} className="btn btn-primary">
+                      Submit
+                    </button>
                   </form>
                 </div>
               </div>

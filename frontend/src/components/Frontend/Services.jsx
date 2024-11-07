@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 import Hero from "../common/Hero";
 import ServideImg from "../../assets/images/construction1.jpg";
+import { apiurl, fileurl } from "../common/http";
 
 const Services = () => {
+  const [services, setServices] = useState([]);
+  const fetchLatestServices = async () => {
+    const res = await fetch(apiurl + "get-services", {
+      method: "GET",
+    });
+    const result = await res.json();
+    console.log(result);
+    setServices(result.data);
+  };
+
+  useEffect(() => {
+    fetchLatestServices();
+  }, []);
   return (
     <>
       <Header />
@@ -25,93 +39,34 @@ const Services = () => {
               </p>
             </div>
             <div className="row pt-4">
-              <div className="col-md-4 col-lg-4">
-                <div className="item">
-                  <div className="service-image">
-                    <img src={ServideImg} className="w-100" />
-                  </div>
-                  <div className="service-body">
-                    <div className="service-title">
-                      <h3>Civil COnstruction</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Pariatur beatae facilis inventore accusantium id,
-                        debitis eos.
-                      </p>
-                    </div>
-                    <a href="#" className="btn btn-primary">
-                      Read More
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-lg-4">
-                <div className="item">
-                  <div className="service-image">
-                    <img src={ServideImg} className="w-100" />
-                  </div>
-                  <div className="service-body">
-                    <div className="service-title">
-                      <h3>Civil COnstruction</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Pariatur beatae facilis inventore accusantium id,
-                        debitis eos.
-                      </p>
-                    </div>
-                    <a href="#" className="btn btn-primary">
-                      Read More
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-lg-4">
-                <div className="item">
-                  <div className="service-image">
-                    <img src={ServideImg} className="w-100" />
-                  </div>
-                  <div className="service-body">
-                    <div className="service-title">
-                      <h3>Civil COnstruction</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Pariatur beatae facilis inventore accusantium id,
-                        debitis eos.
-                      </p>
-                    </div>
-                    <a href="#" className="btn btn-primary">
-                      Read More
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-lg-4">
-                <div className="item">
-                  <div className="service-image">
-                    <img src={ServideImg} className="w-100" />
-                  </div>
-                  <div className="service-body">
-                    <div className="service-title">
-                      <h3>Civil COnstruction</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Pariatur beatae facilis inventore accusantium id,
-                        debitis eos.
-                      </p>
-                    </div>
-                    <a href="#" className="btn btn-primary">
-                      Read More
-                    </a>
-                  </div>
-                </div>
+              <div className="row pt-4">
+                {services &&
+                  services.map((service) => {
+                    return (
+                      // eslint-disable-next-line react/jsx-key
+                      <div className="col-md-3 col-lg-3">
+                        <div className="item">
+                          <div className="service-image">
+                            <img
+                              src={`${fileurl}uploads/services/small/${service.image}`}
+                              className="w-100"
+                            />
+                          </div>
+                          <div className="service-body">
+                            <div className="service-title">
+                              <h3>{service.title}</h3>
+                            </div>
+                            <div className="service-content">
+                              <p>{service.short_desc}</p>
+                            </div>
+                            <a href="#" className="btn btn-primary">
+                              Read More
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </div>
