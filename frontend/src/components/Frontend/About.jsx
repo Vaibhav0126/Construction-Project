@@ -62,7 +62,11 @@ const About = () => {
                   <div className="card-body p-4">
                     <div className="card-title pb-0 mb-0">Vaibhav</div>
                     <div className="card-sub-title">Website Uncle</div>
-                    <a href="#">
+                    <a
+                      href="https://www.linkedin.com/in/vaibhav-singh-a4a5a8288/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"

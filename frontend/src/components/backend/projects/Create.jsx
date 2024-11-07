@@ -1,25 +1,23 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Footer from "../../common/Footer";
 import Header from "../../common/Header";
 import Sidebar from "../../common/Sidebar";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { apiurl, token, fileurl } from "../../common/http";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { apiurl, token } from "../../common/http";
 import { toast } from "react-toastify";
 import JoditEditor from "jodit-react";
 
-const Edit = ({ placeholder }) => {
+const Create = ({ placeholder }) => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  const [service, setService] = useState("");
   const [isDisable, setIsDisable] = useState(false);
   const [imageId, setimageId] = useState(null);
-  const params = useParams();
 
   const config = useMemo(
     () => ({
       readonly: false, // all options from https://xdsoft.net/jodit/docs/,
-      placeholder: placeholder || "",
+      placeholder: placeholder || "Content",
     }),
     [placeholder]
   );
@@ -28,34 +26,15 @@ const Edit = ({ placeholder }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: async () => {
-      const res = await fetch(apiurl + "services/" + params.id, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token()}`,
-        },
-      });
-      const result = await res.json();
-      setContent(result.data.content);
-      setService(result.data);
-      return {
-        title: result.data.title,
-        slug: result.data.slug,
-        short_desc: result.data.short_desc,
-        status: result.data.status,
-      };
-    },
-  });
+  } = useForm();
 
   const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     const newData = { ...data, content: content, imageId: imageId };
 
-    const res = await fetch(apiurl + "services/" + params.id, {
-      method: "PUT",
+    const res = await fetch(apiurl + "projects", {
+      method: "POST",
       headers: {
         "Content-type": "application/json",
         Accept: "application/json",
@@ -66,7 +45,7 @@ const Edit = ({ placeholder }) => {
     const result = await res.json();
     if (result.status == true) {
       toast.success(result.message);
-      navigate("/admin/services");
+      navigate("/admin/projects");
     } else {
       toast.error(result.message);
     }
@@ -90,8 +69,10 @@ const Edit = ({ placeholder }) => {
         setIsDisable(false);
         if (result.status == false) {
           toast.error(result.errors.image[0]);
+          setIsDisable(true);
         } else {
           setimageId(result.data.id);
+          setIsDisable(false);
         }
       });
   };
@@ -110,8 +91,8 @@ const Edit = ({ placeholder }) => {
               <div className="card shadow border-0">
                 <div className="card-body p-4">
                   <div className="d-flex justify-content-between">
-                    <h5>Services/Edit</h5>
-                    <Link to="/admin/services" className="btn btn-primary">
+                    <h5>Projects/Create</h5>
+                    <Link to="/admin/projects" className="btn btn-primary">
                       Back
                     </Link>
                   </div>
@@ -157,6 +138,81 @@ const Edit = ({ placeholder }) => {
                         </p>
                       )}
                     </div>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="mb-3">
+                          <label htmlFor="" className="form-label">
+                            Location
+                          </label>
+                          <input
+                            {...register("location")}
+                            placeholder="Location"
+                            type="text"
+                            className={`form-control `}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="mb-3">
+                          <label htmlFor="" className="form-label">
+                            Construction type
+                          </label>
+                          <select
+                            {...register("construction_type")}
+                            className="form-control"
+                          >
+                            <option value="">Construction type</option>
+                            <option value="Commercial">
+                              CommercialConstruction
+                            </option>
+                            <option value="Industrial">Industrial type</option>
+                          </select>
+                          {/* <input
+                            {...register("slug")}
+                            placeholder="Location"
+                            type="text"
+                            className={`form-control `}
+                          /> */}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="mb-3">
+                          <label htmlFor="" className="form-label">
+                            Sector
+                          </label>
+                          <select
+                            {...register("sector")}
+                            className="form-control"
+                          >
+                            <option value="">Sector</option>
+                            <option value="health">Health</option>
+                            <option value="Education">Education</option>
+                          </select>
+                          {/* <input
+                            {...register("slug")}
+                            placeholder="Location"
+                            type="text"
+                            className={`form-control `}
+                          /> */}
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="mb-3">
+                          <label htmlFor="" className="form-label">
+                            Status
+                          </label>
+                          <select
+                            {...register("status")}
+                            className="form-control"
+                          >
+                            <option value="1">Active</option>
+                            <option value="0">Block</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
                     <div className="mb-3">
                       <label htmlFor="" className="form-label">
                         Short Description
@@ -188,26 +244,9 @@ const Edit = ({ placeholder }) => {
                       <br />
                       <input onChange={handleFile} type="file" />
                     </div>
-                    <div className="pb-3">
-                      {service.image && (
-                        <img
-                          src={
-                            fileurl + "uploads/services/small/" + service.image
-                          }
-                        />
-                      )}
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="" className="form-label">
-                        Status
-                      </label>
-                      <select {...register("status")} className="form-control">
-                        <option value="1">Active</option>
-                        <option value="0">Block</option>
-                      </select>
-                    </div>
+
                     <button disabled={isDisable} className="btn btn-primary">
-                      Update
+                      Submit
                     </button>
                   </form>
                 </div>
@@ -221,4 +260,4 @@ const Edit = ({ placeholder }) => {
   );
 };
 
-export default Edit;
+export default Create;

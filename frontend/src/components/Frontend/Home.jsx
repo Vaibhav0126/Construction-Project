@@ -13,6 +13,7 @@ import BlogImg from "../../assets/images/construction2.jpg";
 import Aboutcomp from "../common/Aboutcomp";
 import { apiurl, token } from "../common/http";
 import LatestServices from "../common/LatestServices";
+import LatestProjects from "../common/LatestProjects";
 
 const Home = () => {
   return (
@@ -35,176 +36,82 @@ const Home = () => {
                   safety.
                 </p>
                 <div className="mt-3">
-                  <a className="btn btn-primary large">Contact now</a>
-                  <a className="btn btn-secondary large ms-2">View Projects</a>
+                  <a href="/contact" className="btn btn-primary large">
+                    Contact now
+                  </a>
+                  <a href="/projects" className="btn btn-secondary large ms-2">
+                    View Projects
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </section>
         <Aboutcomp />
-        {/* Services */}
-        <LatestServices />
+        <div className="container">
+          <div className="row">
+            {/* Services */}
+            <div className="col-md-6">
+              <LatestServices />
+            </div>
+            {/* Projects */}
+            <div className="col-md-6">
+              <LatestProjects />
+            </div>
+          </div>
+        </div>
 
         {/* Why chose us */}
         <section className="section-4 py-5">
           <div className="container py-5">
-            <div className="section-header text-center">
-              <span>Why chose us</span>
-              <h2>Our construction Projects</h2>
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum ad
-                <br /> obcaecati mollitia sint esse quod voluptate in quibusdam
-                amet,
+            <div className="section-header text-center mb-5">
+              <span className="text-uppercase">Why Choose Us</span>
+              <h2>Our Construction Projects</h2>
+              <p className="lead">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum ad
+                obcaecati mollitia sint esse quod voluptate.
               </p>
             </div>
-            <div className="row pt-4">
-              <div className="col-md-4">
-                <div className="card shadow border-0 p-4">
-                  <div className="card-icon">
-                    <img src={Icon1} />{" "}
-                  </div>
-                  <div className="card-title mt-3">
-                    <h3>Lorem, ipsum dolor.</h3>
-                  </div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Unde cumque necessitatibus ex illo tempora! Quisquam
-                    provident eveniet saepe alias sequi?
-                  </p>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card shadow border-0 p-4">
-                  <div className="card-icon">
-                    <img src={Icon1} />{" "}
-                  </div>
-                  <div className="card-title mt-3">
-                    <h3>Lorem, ipsum dolor.</h3>
-                  </div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Unde cumque necessitatibus ex illo tempora! Quisquam
-                    provident eveniet saepe alias sequi?
-                  </p>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card shadow border-0 p-4">
-                  <div className="card-icon">
-                    <img src={Icon1} />{" "}
-                  </div>
-                  <div className="card-title mt-3">
-                    <h3>Lorem, ipsum dolor.</h3>
-                  </div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Unde cumque necessitatibus ex illo tempora! Quisquam
-                    provident eveniet saepe alias sequi?
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* Projects */}
 
-        <section className="section-3 bg-light py-5">
-          <div className="container-fluid py-5">
-            <div className="section-header text-center">
-              <span>Our Projects</span>
-              <h2>Our construction Projects</h2>
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum ad
-                obcaecati mollitia sint esse quod voluptate in quibusdam amet,
-              </p>
-            </div>
-            <div className="row pt-4">
-              <div className="col-md-4 col-lg-3">
-                <div className="item">
-                  <div className="service-image">
-                    <img src={ServideImg} className="w-100" />
-                  </div>
-                  <div className="service-body">
-                    <div className="service-title">
-                      <h3>Civil Project</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Pariatur beatae facilis inventore accusantium id,
-                        debitis eos.
-                      </p>
-                    </div>
-                    <a href="#" className="btn btn-primary">
-                      Read More
-                    </a>
+            <div className="row pt-5 justify-content-between">
+              {/* Column 1 */}
+              <div className="col-md-3 mb-4 position-relative">
+                <div className="image-container">
+                  <img src={Icon1} alt="Project 1" className="w-100" />
+                  <div className="overlay">
+                    <h3 className="overlay-title">Innovative Design</h3>
+                    <p className="overlay-text">
+                      We create innovative designs tailored to each project's
+                      unique needs and requirements.
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="col-md-4 col-lg-3">
-                <div className="item">
-                  <div className="service-image">
-                    <img src={ServideImg} className="w-100" />
-                  </div>
-                  <div className="service-body">
-                    <div className="service-title">
-                      <h3>Civil Project</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Pariatur beatae facilis inventore accusantium id,
-                        debitis eos.
-                      </p>
-                    </div>
-                    <a href="#" className="btn btn-primary">
-                      Read More
-                    </a>
+
+              {/* Column 2 */}
+              <div className="col-md-3 mb-4 position-relative">
+                <div className="image-container">
+                  <img src={Icon1} alt="Project 2" className="w-100" />
+                  <div className="overlay">
+                    <h3 className="overlay-title">Quality Construction</h3>
+                    <p className="overlay-text">
+                      Our focus is on building high-quality and durable
+                      structures that last.
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="col-md-4 col-lg-3">
-                <div className="item">
-                  <div className="service-image">
-                    <img src={ServideImg} className="w-100" />
-                  </div>
-                  <div className="service-body">
-                    <div className="service-title">
-                      <h3>Civil Project</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Pariatur beatae facilis inventore accusantium id,
-                        debitis eos.
-                      </p>
-                    </div>
-                    <a href="#" className="btn btn-primary">
-                      Read More
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-lg-3">
-                <div className="item">
-                  <div className="service-image">
-                    <img src={ServideImg} className="w-100" />
-                  </div>
-                  <div className="service-body">
-                    <div className="service-title">
-                      <h3>Civil Project</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Pariatur beatae facilis inventore accusantium id,
-                        debitis eos.
-                      </p>
-                    </div>
-                    <a href="#" className="btn btn-primary">
-                      Read More
-                    </a>
+
+              {/* Column 3 */}
+              <div className="col-md-3 mb-4 position-relative">
+                <div className="image-container">
+                  <img src={Icon1} alt="Project 3" className="w-100" />
+                  <div className="overlay">
+                    <h3 className="overlay-title">Sustainable Practices</h3>
+                    <p className="overlay-text">
+                      Sustainability is at the core of our construction
+                      practices, ensuring minimal environmental impact.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -212,7 +119,7 @@ const Home = () => {
           </div>
         </section>
         {/* Ratings */}
-        <section className="section-5 py-5">
+        {/* <section className="section-5 py-5">
           <div className="container">
             <div className="section-header text-center">
               <span>Testimonials</span>
@@ -239,7 +146,7 @@ const Home = () => {
                         width="20"
                         height="20"
                         fill="currentColor"
-                        classname="bi bi-star-fill"
+                        className="bi bi-star-fill"
                         viewBox="0 0 16 16"
                       >
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
@@ -275,7 +182,7 @@ const Home = () => {
                         width="20"
                         height="20"
                         fill="currentColor"
-                        classname="bi bi-star-fill"
+                        className="bi bi-star-fill"
                         viewBox="0 0 16 16"
                       >
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
@@ -311,7 +218,7 @@ const Home = () => {
                         width="20"
                         height="20"
                         fill="currentColor"
-                        classname="bi bi-star-fill"
+                        className="bi bi-star-fill"
                         viewBox="0 0 16 16"
                       >
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
@@ -347,7 +254,7 @@ const Home = () => {
                         width="20"
                         height="20"
                         fill="currentColor"
-                        classname="bi bi-star-fill"
+                        className="bi bi-star-fill"
                         viewBox="0 0 16 16"
                       >
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
@@ -376,7 +283,7 @@ const Home = () => {
               </SwiperSlide>
             </Swiper>
           </div>
-        </section>
+        </section> */}
         {/* Blogs and articles */}
         {/* <section className="section-6 bg-light py-5">
           <div className="container">

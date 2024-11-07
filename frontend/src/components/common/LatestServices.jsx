@@ -5,11 +5,11 @@ import { apiurl, fileurl } from "./http";
 const LatestServices = () => {
   const [services, setServices] = useState([]);
   const fetchLatestServices = async () => {
-    const res = await fetch(apiurl + "get-latest-services?limit=4", {
+    const res = await fetch(apiurl + "get-latest-services?limit=2", {
       method: "GET",
     });
     const result = await res.json();
-    console.log(result);
+    // console.log(result);
     setServices(result.data);
   };
 
@@ -21,7 +21,10 @@ const LatestServices = () => {
       <div className="container-fluid py-5">
         <div className="section-header text-center">
           <span>Our Services</span>
-          <h2>Our construction services</h2>
+          <h2>
+            Our Latest <br />
+            Construction Services
+          </h2>
           <p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum ad
             obcaecati mollitia sint esse quod voluptate in quibusdam amet,
@@ -32,7 +35,7 @@ const LatestServices = () => {
             services.map((service) => {
               return (
                 // eslint-disable-next-line react/jsx-key
-                <div className="col-md-3 col-lg-3">
+                <div className="col-md-6 col-lg-6">
                   <div className="item">
                     <div className="service-image">
                       <img
@@ -47,9 +50,9 @@ const LatestServices = () => {
                       <div className="service-content">
                         <p>{service.short_desc}</p>
                       </div>
-                      <a href="#" className="btn btn-primary">
+                      {/* <a href="/services" className="btn btn-primary">
                         Read More
-                      </a>
+                      </a> */}
                     </div>
                   </div>
                 </div>
