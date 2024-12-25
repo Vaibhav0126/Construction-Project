@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ProjectController;
 use App\Http\Controllers\admin\ServiceController;
+use App\Http\Controllers\front\ContactController;
 use App\Http\Controllers\front\ServiceController as FrontServiceController;
 use App\Http\Controllers\front\ProjectController as FrontProjectController;
 use App\Http\Controllers\admin\TempImageController;
@@ -15,6 +16,7 @@ Route::get('get-services', [FrontServiceController::class, 'index']);
 Route::get('get-latest-services', [FrontServiceController::class, 'latestServices']);
 Route::get('get-projects', [FrontProjectController::class, 'allProjects']);
 Route::get('get-latest-projects', [FrontProjectController::class, 'latestProjects']);
+Route::post('contact-now', [ContactController::class, 'index']);
 
 
 
