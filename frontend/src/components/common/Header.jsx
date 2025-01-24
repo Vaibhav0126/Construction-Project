@@ -1,6 +1,7 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import logo from "../../assets/images/page_2.svg";
 
 const header = () => {
   return (
@@ -8,8 +9,9 @@ const header = () => {
       <div className="container py-3">
         <Navbar expand="lg">
           <Navbar.Brand href="/admin/login" className="logo">
+            <img src={logo} alt="Logo"></img>
             <span>Chhikara </span>
-            Construction
+            Constructions
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -26,9 +28,6 @@ const header = () => {
               <Nav.Link href="/projects" className="nav-link">
                 Projects
               </Nav.Link>
-              {/* <Nav.Link href="#link" className="nav-link">
-                Blogs
-              </Nav.Link> */}
               <Nav.Link href="/contact" className="nav-link">
                 Contact Us
               </Nav.Link>

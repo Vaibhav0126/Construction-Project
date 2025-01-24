@@ -1,4 +1,5 @@
 import React from "react";
+import Nav from "react-bootstrap/Nav";
 
 const Footer = () => {
   return (
@@ -32,19 +33,24 @@ const Footer = () => {
             <h3 className="mb-3">Quick Links</h3>
             <ul>
               <li>
-                <a href="">About Us</a>
+                <Nav.Link href="/about" className="nav-link">
+                  About Us
+                </Nav.Link>
               </li>
               <li>
-                <a href="">Services</a>
+                <Nav.Link href="/services" className="nav-link">
+                  Services
+                </Nav.Link>
               </li>
               <li>
-                <a href="">Projects</a>
+                <Nav.Link href="/projects" className="nav-link">
+                  Projects
+                </Nav.Link>
               </li>
               <li>
-                <a href="">Blogs</a>
-              </li>
-              <li>
-                <a href="">Contact Us</a>
+                <Nav.Link href="/contact" className="nav-link">
+                  Contact Us
+                </Nav.Link>{" "}
               </li>
             </ul>
           </div>
